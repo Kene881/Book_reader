@@ -1,0 +1,32 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+<form action="{% url 'books:create-obj' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Name of book</label>
+        {{form.name_of_book}}
+    </div>
+    <div class="form-group">
+        <label>Date of release</label>
+        {{form.date_of_release}}
+    </div>
+    <div class="form-group">
+        <label>Author</label>
+        {{form.author}}
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        {{form.description}}
+    </div>
+    <div class="form-group">
+        <label>File</label>
+        {{form.file}}
+    </div>
+    <div class="form-group">
+        <label>Cover</label>
+        {{form.cover}}
+    </div>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

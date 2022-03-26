@@ -1,0 +1,17 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for book in books%}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.name_of_book }}</h5>
+                    </div>
+                    <img src="{{ book.cover.url }}" class="card-img-bottom" height="700px" alt="...">
+                    <a href="{% url 'books:get-one-obj' id=book.id %}" class="btn btn-primary m-2">Detail of book</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

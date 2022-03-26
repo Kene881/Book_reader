@@ -1,0 +1,39 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-7">
+        <iframe src="{{book.file.url}}" width="100%" height="700px">
+        </iframe>
+    </div>
+    <div class="col">
+        <h1>FUNCTIONS</h1>
+        
+        <form action="{% url 'pdf_books:create_note' id=book.id %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Number of page</label>
+                {{form.num_page}}
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                {{form.description}}
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if notes %}
+            <ul class="list-group mt-4">
+                {% for note in notes %}
+                    <li class="list-group-item">
+                        {{ note.num_page }}
+                        {{ note.description }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+    </div>
+</div>
+
+{% endblock %}

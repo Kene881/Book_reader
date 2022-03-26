@@ -1,0 +1,34 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+<form action="{% url 'authors:create' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+{% if authors %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in authors %}
+                <tr>
+                    <td>{{ author.first_name }}</td>
+                    <td>{{ author.last_name }}</td>
+                    <td>{{ author.date_of_birth }}</td>
+                    <td><a class="btn btn-primary" href="{% url 'authors:delete' id=author.id %}" role="button">Delete</a></td>
+                </tr>
+                <p></p>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+Emply list
+{% endif %}
+
+{% endblock %}

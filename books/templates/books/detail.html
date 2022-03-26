@@ -1,0 +1,44 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+
+<div class="row gx-5">
+    <div class="col-4">
+        <img src="{{ book.cover.url }}" style="width: 430px; height: 600px;" alt="...">
+    </div>
+    <div class="col-8">
+        <h1>{{book.name_of_book}}</h1>
+
+        {% if book.author %}
+            <h4 class="text-muted">{{book.author}}</h4>
+        {% else %}
+            <h4 class="text-muted">No author</h4>
+        {% endif %}
+        
+        <p class="text-muted">{{book.date_of_release}}</p>
+        <p>{{book.description}}</p>
+
+        {% if user.is_authenticated %}
+            <div class="row">
+                <div class="d-grid gap-2 col-3">
+                    <a href="{% url 'pdf_books:get_book' id=book.id %}" class="btn btn-primary m-2">Read book</a>
+                </div>
+            </div>
+            {% if book.user == user %}
+                <div class="row">
+                    <div class="col">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'books:delete-obj' id=book.id %}" class="btn btn-primary">Delete</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'books:update-obj' id=book.id %}" class="btn btn-primary">Update</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
