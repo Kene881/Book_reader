@@ -38,14 +38,17 @@ def register_view(request):
         firstname = request.POST.get('firstname', None) 
         lastname = request.POST.get('lastname', None)
         print(f'username: {username}\npassword: {password}\nemail: {email}\nfirstname: {firstname}\nlastname: {lastname}')
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            first_name=firstname,
-            last_name=lastname
-        )
-        user.set_password(password)
-        user.save()
+        try:
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                first_name=firstname,
+                last_name=lastname
+            )
+            user.set_password(password)
+            user.save()
+        except:
+            return redirect('auth:login')
         return redirect('auth:login')
     return render(request, 'authenticate/register.html')
 

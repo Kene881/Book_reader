@@ -23,14 +23,33 @@
         </form>
 
         {% if notes %}
-            <ul class="list-group mt-4">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Page</th>
+                    <th scope="col">Desc</th>
+                    <th scope="col">Func</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for note in notes %}
+                        <tr>
+                            <td>{{ note.num_page }}</td>
+                            <td>{{ note.description }}</td>
+                            <td><a href="{% url 'pdf_books:delete_note' id=note.id %}" class="btn btn-primary">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% comment %} <ul class="list-group mt-4">
                 {% for note in notes %}
                     <li class="list-group-item">
                         {{ note.num_page }}
                         {{ note.description }}
+                        <a href="{% url 'pdf_books:delete_note' id=note.id %}" class="btn btn-primary">Delete</a>
                     </li>
                 {% endfor %}
-            </ul>
+            </ul> {% endcomment %}
         {% endif %}
         
     </div>
