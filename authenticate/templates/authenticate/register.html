@@ -1,7 +1,7 @@
 {% extends 'books/base.html' %}
 
 {% block content %}
-<form action="" method="post">
+<form action="{% url 'auth:register' %}" method="post">
     {% csrf_token %}
     <div class="mb-3">
         <label for="username" class="form-label">Username</label>

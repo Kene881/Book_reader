@@ -1,7 +1,10 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-# Create your views here.
+
+# login_view
+# register_view
+# logout_view
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -18,15 +21,6 @@ def login_view(request):
             print('go away')
             return redirect('auth:register')
     return render(request, 'authenticate/login.html')
-
-# def cabinet(request):
-#     if request.user.is_authenticated:
-
-# username
-# password
-# email 
-# firstname 
-# lastname
 
 def register_view(request):
     if request.user.is_authenticated:
