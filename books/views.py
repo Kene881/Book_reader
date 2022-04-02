@@ -5,13 +5,39 @@ from authors.models import Author
 from .forms import BookForm
 
 cyrillic = {
-    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
-    'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
-    'й': 'i', 'к': 'k', 'л': 'l', 'м': 'm','н': 'n',
-    'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
-    'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch',
-    'ш': 'sh', 'щ': 'sh', 'ъ': '', 'ь': '','ы': 'i',
-    'э': 'e', 'ю': 'yu','я': 'ya',
+    'а': 'a', 'А': 'a',
+    'б': 'b', 'Б': 'b', 
+    'в': 'v', 'В': 'v', 
+    'г': 'g', 'Г': 'g',
+    'д': 'd', 'Д': 'd',
+    'е': 'e', 'Е': 'e',
+    'ё': 'e', 'Ё': 'e', 
+    'ж': 'zh', 'Ж': 'zh',
+    'з': 'z', 'З': 'z', 
+    'и': 'i', 'И': 'i',
+    'й': 'i', 'Й': 'i',
+    'к': 'k', 'К': 'k', 
+    'л': 'l', 'Л': 'l',
+    'м': 'm', 'М': 'm',
+    'н': 'n', 'Н': 'n',
+    'о': 'o', 'О': 'o', 
+    'п': 'p', 'П': 'p', 
+    'р': 'r', 'Р': 'r', 
+    'с': 's', 'С': 's',
+    'т': 't', 'Т': 't',
+    'у': 'u', 'У': 'u', 
+    'ф': 'f', 'Ф': 'f', 
+    'х': 'h', 'Х': 'h', 
+    'ц': 'ts', 'Ц': 'ts', 
+    'ч': 'ch', 'Ч': 'ch',
+    'ш': 'sh', 'Ш': 'sh', 
+    'щ': 'sh', 'Щ': 'sh', 
+    'ъ': '', 'Ъ': '', 
+    'ь': '', 'Ь': '', 
+    'ы': 'i', 'Ы': 'i',
+    'э': 'e', 'Э': 'e', 
+    'ю': 'yu', 'Ю': 'yu',
+    'я': 'ya', 'Я': 'ya',
 }
 
 def change_char(word):
@@ -49,6 +75,7 @@ def update(request, id):
         if author != '':
             book.author = Author.objects.get(pk=author)    
         if file != '':
+            request.FILES['file'].name = change_char(request.FILES['file'].name)
             book.file = request.FILES['file']
         if cover != '':
             book.cover = request.FILES['cover']
@@ -76,7 +103,7 @@ def create(request):
         return redirect('books:get-obj')
 
     if request.method == 'POST':
-        print(request.FILES['file'].name)
+        
         request.FILES['file'].name = change_char(request.FILES['file'].name)
 
         form = BookForm(request.POST, request.FILES)
