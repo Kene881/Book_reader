@@ -1,9 +1,29 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from django.db import transaction
 from books.models import Book
 from authors.models import Author
 from .forms import BookForm
+
+cyrillic = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
+    'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
+    'й': 'i', 'к': 'k', 'л': 'l', 'м': 'm','н': 'n',
+    'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+    'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch',
+    'ш': 'sh', 'щ': 'sh', 'ъ': '', 'ь': '','ы': 'i',
+    'э': 'e', 'ю': 'yu','я': 'ya',
+}
+
+def change_char(word):
+    new_word = ''
+    
+    for i in word:
+        char = i
+        if i in cyrillic.keys():
+            char = cyrillic[i]
+        new_word += char
+    
+    return new_word
 
 def get(request):
     books = Book.objects.all()
@@ -13,7 +33,6 @@ def get_detail(request, id):
     book = Book.objects.get(pk=id)
     return render(request, 'books/detail.html', { 'book': book })
 
-@transaction.atomic
 def update(request, id):
     book = Book.objects.get(pk=id)
 
@@ -52,12 +71,14 @@ def update(request, id):
     
     return render(request, 'books/update.html', { 'form': form, 'book_id': id })
 
-@transaction.atomic
 def create(request):
     if not request.user.is_authenticated:
         return redirect('books:get-obj')
 
     if request.method == 'POST':
+        print(request.FILES['file'].name)
+        request.FILES['file'].name = change_char(request.FILES['file'].name)
+
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
             book = form.save(commit=False)
@@ -69,7 +90,6 @@ def create(request):
         
     return render(request, 'books/create.html', { 'form': form })
 
-@transaction.atomic
 def delete(request, id):
     book = Book.objects.get(pk = id)
     
