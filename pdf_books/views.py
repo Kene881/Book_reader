@@ -1,15 +1,16 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, render
 from books.models import Book
-from reader_books_website.settings import BASE_DIR
+# from reader_books_website.settings import BASE_DIR
 from .forms import NoteForm
 from .models import Notes
 import os
 
 def download_book(request, id):
     book = Book.objects.get(pk=id)
-    file_path = str(BASE_DIR) + '/media/' + book.file.name
-    
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    file_path = BASE_DIR + book.file.url
+
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fl:
             response = HttpResponse(fl.read(), content_type="application/vnd.ms-excel")
