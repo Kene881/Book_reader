@@ -8,7 +8,7 @@ import os
 
 def download_book(request, id):
     book = Book.objects.get(pk=id)
-    file_path = str(BASE_DIR.cwd()) + '/media/' + book.file.name
+    file_path = str(BASE_DIR) + '/media/' + book.file.name
     
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fl:
