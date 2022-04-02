@@ -6,18 +6,17 @@ from .forms import NoteForm
 from .models import Notes
 import os
 
-# def download_book(request, id):
-#     book = Book.objects.get(pk=id)
-#     file_path = book.file.url.replace('/', "\\")
-#     file_path = f'{BASE_DIR}{file_path}'
-#     print(file_path)
-#     if os.path.exists(file_path):
-#         print('exist')
-#         with open(file_path, 'rb') as fl:
-#             response = HttpResponse(fl.read(), content_type="application/vnd.ms-excel")
-#             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-#             return response
-#     return redirect('books:get-obj')
+def download_book(request, id):
+    book = Book.objects.get(pk=id)
+    file_path = str(BASE_DIR.cwd()) + '/media/' + book.file.name
+    
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fl:
+            response = HttpResponse(fl.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+
+    return redirect('books:get-obj')
 
 def get_book(request, id):
     if not request.user.is_authenticated:

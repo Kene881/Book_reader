@@ -41,15 +41,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-            {% comment %} <ul class="list-group mt-4">
-                {% for note in notes %}
-                    <li class="list-group-item">
-                        {{ note.num_page }}
-                        {{ note.description }}
-                        <a href="{% url 'pdf_books:delete_note' id=note.id %}" class="btn btn-primary">Delete</a>
-                    </li>
-                {% endfor %}
-            </ul> {% endcomment %}
         {% endif %}
         
     </div>
